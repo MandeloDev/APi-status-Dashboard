@@ -1,4 +1,3 @@
-
 // "use client";
 
 // import { useState } from "react";
@@ -17,6 +16,27 @@
 // const Home = ({ data }: { data: { data1: DataItem[], data2: DataItem[], data3: DataItem[], data4: DataItem[] } }) => {
 //   const [selectedTable, setSelectedTable] = useState<string>('Vans');
 
+//   const googleChatNotification = async (message: string) => {
+//     const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
+//     const res = await fetch(url, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json; charset=UTF-8" },
+//       body: JSON.stringify({ text: message })
+//     });
+//     return await res.json();
+//   };
+
+//   const refreshData = async () => {
+//     const message = `<users/@pieter@wbwr.io> Please run a production sync on ${selectedTable}`;
+    
+//     try {
+//       await googleChatNotification(message);
+//       console.log(`Notification sent to Google Chat: ${message}`);
+//     } catch (error) {
+//       console.error(`Failed to send notification: ${error}`);
+//     }
+//   };
+
 //   const renderTable = (data: DataItem[], title: string) => (
 //     <div className="w-full pb-4">
 //       <h2 className="text-xl text-black uppercase font-bold mb-4">{title}</h2>
@@ -24,9 +44,9 @@
 //       <div className="flex mb-4">
 //         <button
 //           className="px-4 py-2 bg-green-500 text-white"
-//           // onClick={refreshData}
+//           onClick={refreshData}
 //         >
-//           Refresh Data
+//           Request Sync Data
 //         </button>
 //       </div>
 
@@ -106,9 +126,11 @@
 
 
 
+
+
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface DataItem {
   fileName: string;
@@ -122,7 +144,15 @@ interface DataItem {
 }
 
 const Home = ({ data }: { data: { data1: DataItem[], data2: DataItem[], data3: DataItem[], data4: DataItem[] } }) => {
-  const [selectedTable, setSelectedTable] = useState<string>('Vans');
+  const [selectedTable, setSelectedTable] = useState<string>(() => {
+    // Retrieve the stored selectedTable from localStorage
+    return localStorage.getItem('selectedTable') || 'Vans';
+  });
+
+  useEffect(() => {
+    // Store the selectedTable in localStorage whenever it changes
+    localStorage.setItem('selectedTable', selectedTable);
+  }, [selectedTable]);
 
   const googleChatNotification = async (message: string) => {
     const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
@@ -135,7 +165,7 @@ const Home = ({ data }: { data: { data1: DataItem[], data2: DataItem[], data3: D
   };
 
   const refreshData = async () => {
-    const message = `Please run a sync on @${selectedTable}`;
+    const message = `@pieter@wbwr.io Please run a production sync on ${selectedTable}`;
     
     try {
       await googleChatNotification(message);
@@ -154,7 +184,7 @@ const Home = ({ data }: { data: { data1: DataItem[], data2: DataItem[], data3: D
           className="px-4 py-2 bg-green-500 text-white"
           onClick={refreshData}
         >
-          Sync Data
+          Request Sync Data
         </button>
       </div>
 
@@ -231,3 +261,7 @@ const Home = ({ data }: { data: { data1: DataItem[], data2: DataItem[], data3: D
 };
 
 export default Home;
+
+
+
+
