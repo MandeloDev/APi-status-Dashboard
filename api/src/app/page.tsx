@@ -35,7 +35,8 @@ async function getData() {
 
 const HomePage = async () => {
   const data = await getData();
- 
+   
+  
 
   return (
     <div className=" bg-white  mx-auto p-4">
