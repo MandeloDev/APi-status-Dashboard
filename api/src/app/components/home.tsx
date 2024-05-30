@@ -25,26 +25,175 @@ const Home = ({ data }: { data: { data1: DataItem[], data2: DataItem[], data3: D
     localStorage.setItem('selectedTable', selectedTable);
   }, [selectedTable]);
 
-  const googleChatNotification = async (message: string) => {
-    const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json; charset=UTF-8" },
-      body: JSON.stringify({ text: message })
-    });
-    return await res.json();
-  };
+  // const googleChatNotification = async (message: string) => {
+  //   const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
+  //   const res = await fetch(url, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json; charset=UTF-8" },
+  //     body: JSON.stringify({ text: message })
+  //   });
+  //   return await res.json();
+  // };
 
-  const refreshData = async () => {
-    const message = `@pieter@wbwr.io Please run a production sync on ${selectedTable}`;
+  
+ 
+
+
+
+
+  // const refreshData = async () => {
+  //   const message = `@pieter@wbwr.io Please run a production sync on ${selectedTable}`;
     
-    try {
-      await googleChatNotification(message);
-      console.log(`Notification sent to Google Chat: ${message}`);
-    } catch (error) {
-      console.error(`Failed to send notification: ${error}`);
+  //   try {
+  //     await googleChatNotification(message);
+  //     console.log(`Notification sent to Google Chat: ${message}`);
+  //   } catch (error) {
+  //     console.error(`Failed to send notification: ${error}`);
+  //   }
+  // };
+
+  ////// test ///////
+
+  // const googleChatNotification = async (message: string, email: string) => {
+  //   const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
+    
+  //   const body = {
+  //     cards: [
+  //       {
+  //         sections: [
+  //           {
+  //             widgets: [
+  //               {
+  //                 textParagraph: {
+  //                   text: `<users/${email}> ${message}`,
+  //                 },
+  //               },
+  //             ],
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   };
+  
+  //   const res = await fetch(url, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json; charset=UTF-8" },
+  //     body: JSON.stringify(body),
+  //   });
+  
+  //   if (!res.ok) {
+  //     throw new Error(`Failed to send notification: ${res.statusText}`);
+  //   }
+  
+  //   return await res.json();
+  // };
+  
+  // const refreshData = async () => {
+  //   const email = "pieter@wbwr.io"; 
+  //   const message = email + "Please run a production sync on " + selectedTable;
+  
+  //   try {
+  //     await googleChatNotification(message, email);
+  //     console.log(`Notification sent to Google Chat: ${message}`);
+  //   } catch (error) {
+  //     console.error(`Failed to send notification: ${error}`);
+  //   }
+  // };
+
+
+  //// recent
+  // const googleChatNotification = async (message: string, email: string, displayName: string) => {
+  //   const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
+
+  //   const body = {
+  //     text: `@${displayName} ${message}`,
+  //   };
+
+  //   const res = await fetch(url, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json; charset=UTF-8" },
+  //     body: JSON.stringify(body),
+  //   });
+
+  //   const result = await res.json();
+  //   console.log(result); // Log the response for debugging
+
+  //   if (!res.ok) {
+  //     throw new Error(`Failed to send notification: ${res.statusText}`);
+  //   }
+
+  //   return result;
+  // };
+
+  // const refreshData = async () => {
+  //   const message = `Please run a production sync on ${selectedTable}`;
+  //   const email = "pieter@wbwr.io"; // The email of the person to mention
+  //   const displayName = "Pieter Slabbert"; // The display name of the person to mention
+
+  //   try {
+  //     await googleChatNotification(message, email, displayName);
+  //     console.log(`Notification sent to Google Chat: ${message}`);
+  //   } catch (error) {
+  //     console.error(`Failed to send notification: ${error}`);
+  //   }
+  // };
+
+
+  const googleChatNotification = async (message: string, email: string, displayName: string) => {
+    const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
+
+    const body = {
+        text: `${message}`,
+        cards: [
+            {
+                sections: [
+                    {
+                        widgets: [
+                            {
+                                textParagraph: {
+                                    text: `<users/${email}> ${message}`
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+
+    const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=UTF-8" },
+        body: JSON.stringify(body),
+    });
+
+    const result = await res.json();
+    console.log(result); // Log the response for debugging
+
+    if (!res.ok) {
+        throw new Error(`Failed to send notification: ${res.statusText}`);
     }
-  };
+
+    return result;
+};
+
+const refreshData = async () => {
+    const selectedTable = "Vans"; // Replace with the actual selected table logic
+    const message = `Please run a production sync on ${selectedTable}`;
+    const email = "pieter@wbwr.io"; // The email of the person to mention
+    const displayName = "Pieter Slabbert"; // The display name of the person to mention
+
+    try {
+        await googleChatNotification(message, email, displayName);
+        console.log(`Notification sent to Google Chat: ${message}`);
+    } catch (error) {
+        console.error(`Failed to send notification: ${error}`);
+    }
+};
+
+
+
+
 
 
 
