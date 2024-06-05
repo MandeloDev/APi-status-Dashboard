@@ -225,14 +225,13 @@ const refreshData = async () => {
           Request Sync Data
         </button>
 
-        <button
+        {/* <button
           className="px-4 py-2 ml-2 bg-blue-500 text-white"
-          // onClick={validateData}
 
           onClick={validateData}
         >
           Validate Data
-        </button>
+        </button> */}
         
       </div>
 
