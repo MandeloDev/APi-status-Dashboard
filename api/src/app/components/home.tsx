@@ -197,19 +197,19 @@ const refreshData = async () => {
 
 
 
-  const validateData = async () => {
-    try {
-      const newData1 = await fetchData('https://feed.unbxd.io/api/auk-prod-wbwr-vans-shopify48861701268322/catalog/status', true);
-      const newData2 = await fetchData('https://feed.unbxd.io/api/ss-unbxd-auk-prod-wbwr-Crocs-shopify48861706029242/catalog/status', true);
-      const newData3 = await fetchData('https://feed.unbxd.io/api/ss-unbxd-auk-prod-wbwr-UnderArmour-shopify48861706029107/catalog/status', true);
-      const newData4 = await fetchData('https://feed.unbxd.io/api/ss-unbxd-auk-prod-wbwr-Birkenstock-shopify48861706029306/catalog/status', true);
+  // const validateData = async () => {
+  //   try {
+  //     const newData1 = await fetchData('https://feed.unbxd.io/api/auk-prod-wbwr-vans-shopify48861701268322/catalog/status', true);
+  //     const newData2 = await fetchData('https://feed.unbxd.io/api/ss-unbxd-auk-prod-wbwr-Crocs-shopify48861706029242/catalog/status', true);
+  //     const newData3 = await fetchData('https://feed.unbxd.io/api/ss-unbxd-auk-prod-wbwr-UnderArmour-shopify48861706029107/catalog/status', true);
+  //     const newData4 = await fetchData('https://feed.unbxd.io/api/ss-unbxd-auk-prod-wbwr-Birkenstock-shopify48861706029306/catalog/status', true);
 
-      setData({ data1: newData1, data2: newData2, data3: newData3, data4: newData4 });
-      console.log("Data validated successfully");
-    } catch (error) {
-      console.error(`Failed to validate data: ${error}`);
-    }
-  };
+  //     setData({ data1: newData1, data2: newData2, data3: newData3, data4: newData4 });
+  //     console.log("Data validated successfully");
+  //   } catch (error) {
+  //     console.error(`Failed to validate data: ${error}`);
+  //   }
+  // };
 
 
 
