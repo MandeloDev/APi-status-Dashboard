@@ -1,6 +1,3 @@
-
-/////// current ui ///////
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -18,198 +15,71 @@ interface DataItem {
 
 const Home = ({ data }: { data: { data1: DataItem[], data2: DataItem[], data3: DataItem[], data4: DataItem[] } }) => {
   const [selectedTable, setSelectedTable] = useState<string>(() => {
-    return localStorage.getItem('selectedTable') || 'Vans';
+    // Checking if we're running in the browser before accessing localStorage
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('selectedTable') || 'Vans';
+    }
+    return 'Vans'; // Fallback for SSR (Server-Side Rendering)
   });
 
   useEffect(() => {
-    localStorage.setItem('selectedTable', selectedTable);
+    // Checking if we're running in the browser before accessing localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('selectedTable', selectedTable);
+    }
   }, [selectedTable]);
-
-  // const googleChatNotification = async (message: string) => {
-  //   const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
-  //   const res = await fetch(url, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json; charset=UTF-8" },
-  //     body: JSON.stringify({ text: message })
-  //   });
-  //   return await res.json();
-  // };
-
-  
- 
-
-
-
-
-  // const refreshData = async () => {
-  //   const message = `@pieter@wbwr.io Please run a production sync on ${selectedTable}`;
-    
-  //   try {
-  //     await googleChatNotification(message);
-  //     console.log(`Notification sent to Google Chat: ${message}`);
-  //   } catch (error) {
-  //     console.error(`Failed to send notification: ${error}`);
-  //   }
-  // };
-
-  ////// test ///////
-
-  // const googleChatNotification = async (message: string, email: string) => {
-  //   const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
-    
-  //   const body = {
-  //     cards: [
-  //       {
-  //         sections: [
-  //           {
-  //             widgets: [
-  //               {
-  //                 textParagraph: {
-  //                   text: `<users/${email}> ${message}`,
-  //                 },
-  //               },
-  //             ],
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   };
-  
-  //   const res = await fetch(url, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json; charset=UTF-8" },
-  //     body: JSON.stringify(body),
-  //   });
-  
-  //   if (!res.ok) {
-  //     throw new Error(`Failed to send notification: ${res.statusText}`);
-  //   }
-  
-  //   return await res.json();
-  // };
-  
-  // const refreshData = async () => {
-  //   const email = "pieter@wbwr.io"; 
-  //   const message = email + "Please run a production sync on " + selectedTable;
-  
-  //   try {
-  //     await googleChatNotification(message, email);
-  //     console.log(`Notification sent to Google Chat: ${message}`);
-  //   } catch (error) {
-  //     console.error(`Failed to send notification: ${error}`);
-  //   }
-  // };
-
-
-  //// recent
-  // const googleChatNotification = async (message: string, email: string, displayName: string) => {
-  //   const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
-
-  //   const body = {
-  //     text: `@${displayName} ${message}`,
-  //   };
-
-  //   const res = await fetch(url, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json; charset=UTF-8" },
-  //     body: JSON.stringify(body),
-  //   });
-
-  //   const result = await res.json();
-  //   console.log(result); // Log the response for debugging
-
-  //   if (!res.ok) {
-  //     throw new Error(`Failed to send notification: ${res.statusText}`);
-  //   }
-
-  //   return result;
-  // };
-
-  // const refreshData = async () => {
-  //   const message = `Please run a production sync on ${selectedTable}`;
-  //   const email = "pieter@wbwr.io"; // The email of the person to mention
-  //   const displayName = "Pieter Slabbert"; // The display name of the person to mention
-
-  //   try {
-  //     await googleChatNotification(message, email, displayName);
-  //     console.log(`Notification sent to Google Chat: ${message}`);
-  //   } catch (error) {
-  //     console.error(`Failed to send notification: ${error}`);
-  //   }
-  // };
-
 
   const googleChatNotification = async (message: string, email: string, displayName: string) => {
     const url = "https://chat.googleapis.com/v1/spaces/AAAA2_eR2OY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=jOUtgTcAbCqbWCG8q-rxnXCl0OW-OZYs9yfyzH301qI";
 
     const body = {
-        text: `${message}`,
-        cards: [
+      text: `${message}`,
+      cards: [
+        {
+          sections: [
             {
-                sections: [
-                    {
-                        widgets: [
-                            {
-                                textParagraph: {
-                                    text: `<users/${email}> ${message}`
-                                }
-                            }
-                        ]
-                    }
-                ]
+              widgets: [
+                {
+                  textParagraph: {
+                    text: `<users/${email}> ${message}`
+                  }
+                }
+              ]
             }
-        ]
+          ]
+        }
+      ]
     };
 
     const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json; charset=UTF-8" },
-        body: JSON.stringify(body),
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=UTF-8" },
+      body: JSON.stringify(body),
     });
 
     const result = await res.json();
     console.log(result); // Log the response for debugging
 
     if (!res.ok) {
-        throw new Error(`Failed to send notification: ${res.statusText}`);
+      throw new Error(`Failed to send notification: ${res.statusText}`);
     }
 
     return result;
-};
+  };
 
-const refreshData = async () => {
+  const refreshData = async () => {
     const selectedTable = "Vans"; // Replace with the actual selected table logic
     const message = `Please run a production sync on ${selectedTable}`;
     const email = "pieter@wbwr.io"; // The email of the person to mention
     const displayName = "Pieter Slabbert"; // The display name of the person to mention
 
     try {
-        await googleChatNotification(message, email, displayName);
-        console.log(`Notification sent to Google Chat: ${message}`);
+      await googleChatNotification(message, email, displayName);
+      console.log(`Notification sent to Google Chat: ${message}`);
     } catch (error) {
-        console.error(`Failed to send notification: ${error}`);
+      console.error(`Failed to send notification: ${error}`);
     }
-};
-
-
-
-
-
-
-
-  // const validateData = async () => {
-  //   try {
-  //     const newData1 = await fetchData('https://feed.unbxd.io/api/auk-prod-wbwr-vans-shopify48861701268322/catalog/status', true);
-  //     const newData2 = await fetchData('https://feed.unbxd.io/api/ss-unbxd-auk-prod-wbwr-Crocs-shopify48861706029242/catalog/status', true);
-  //     const newData3 = await fetchData('https://feed.unbxd.io/api/ss-unbxd-auk-prod-wbwr-UnderArmour-shopify48861706029107/catalog/status', true);
-  //     const newData4 = await fetchData('https://feed.unbxd.io/api/ss-unbxd-auk-prod-wbwr-Birkenstock-shopify48861706029306/catalog/status', true);
-
-  //     setData({ data1: newData1, data2: newData2, data3: newData3, data4: newData4 });
-  //     console.log("Data validated successfully");
-  //   } catch (error) {
-  //     console.error(`Failed to validate data: ${error}`);
-  //   }
-  // };
+  };
 
 
 
@@ -225,13 +95,15 @@ const refreshData = async () => {
           Request Sync Data
         </button>
 
-        {/* <button
+
+<button
           className="px-4 py-2 ml-2 bg-blue-500 text-white"
 
-          onClick={validateData}
+          // onClick={validateData}
         >
           Validate Data
-        </button> */}
+        </button> 
+
         
       </div>
 
